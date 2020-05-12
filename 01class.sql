@@ -12,8 +12,18 @@
   * +------------------+
   */
 
- SELECT * FROM countries;
 
+ SELECT * -- fetch all rows
+   FROM db_laba.dbo.countries;
+
+-- это однострочный комментарий
+
+/*это однострочный комментарий
+ odghldghlkgd
+ dflgdghldg
+ fkjghdfghkg
+  */
+ 
 /*
  * +-------------+
  * | Типы данных |
