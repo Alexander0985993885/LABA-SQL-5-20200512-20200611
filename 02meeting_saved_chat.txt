@@ -1,0 +1,54 @@
+17:00:35	 From  Olga : добрый вечер
+17:01:01	 From  Игорь Дирксен : +
+17:01:09	 From  Игорь Дирксен : +
+17:01:12	 From  Игорь Дирксен : ++
+17:01:14	 From  Serhii  to  All panelists : +++
+17:01:17	 From  Румика Ибрагим : +++Добрый вечер
+17:01:39	 From  Serhii : +++
+17:03:29	 From  Serhii  to  All panelists : А можно в телеграмм добавить  номер 0672241299, мой телефон "умер"?
+17:04:51	 From  Serhii : Ок. Спасибо!
+17:12:06	 From  Румика Ибрагим : да
+17:12:07	 From  Arseniy Ulanov : +
+17:12:07	 From  Игорь Дирксен : +
+17:12:08	 From  Tatiana : да, ок
+17:12:08	 From  Serhii : +
+17:25:45	 From  Maksym Belko : https://sqlformat.org/#result
+17:33:40	 From  Arseniy Ulanov : не понял зачем нужен аллиас)
+17:33:59	 From  Semen  to  All panelists : алиас не понятно
+17:34:34	 From  Arseniy Ulanov : понял!) спасибо
+17:37:36	 From  artificial_intelligence  to  All panelists : нумерация начинается с 0 или 1?
+17:40:07	 From  Maksym Belko : https://www.w3schools.com/sql/sql_distinct.asp
+17:41:24	 From  Miras N : кстати, а в чем отличие использования DISTINCT ON () и DISTINCT ()? Я просто использую всегда DISTINC ON ()
+17:41:48	 From  Tatiana : Если у нас две таблицы, как сортировать по Order by?
+17:43:17	 From  Miras N : postgresql
+17:44:18	 From  Maksym Belko : https://stackoverflow.com/questions/50846722/what-is-the-difference-between-postgres-distinct-vs-distinct-on
+18:00:30	 From  Miras N : 1 и 2
+18:00:33	 From  Arseniy Ulanov : тот же
+18:00:37	 From  Игорь Дирксен : ни чего 
+18:00:46	 From  Miras N : точно )
+18:00:56	 From  Arseniy Ulanov : а, при or будет тот же
+18:01:44	 From  Игорь Дирксен : только на 2
+18:01:52	 From  Дмитрий Апаршев : будет влиять для категории 2
+18:03:20	 From  Serhii : тоесть правильно писать через in?
+18:03:45	 From  Serhii : результат тот же будет?
+18:07:43	 From  Tatiana : почему поставили запятую а не "and" когда перечисляли условие? 
+18:08:18	 From  Tatiana : 128
+18:12:49	 From  Semen : +
+18:18:15	 From  Oleksandr Lukiianchyn : Что если слово не первое
+18:18:20	 From  Oleksandr Lukiianchyn : Например Предатор
+18:18:34	 From  Semen : если __n и не ставить %  ???
+18:18:55	 From  Semen : что выдаст?
+18:19:08	 From  Oleksandr Lukiianchyn : Вы уже объяснили на примере Диск
+18:19:10	 From  Tatiana : like только для работы с текстом или можно с цифрами и id тоже использовать? 
+18:19:17	 From  Игорь Дирксен : %PREDATOR%
+18:23:13	 From  Игорь Дирксен : +
+18:25:30	 From  Илья Селюгин : Что значит "dbo" в команде FROM между базой и таблицей?
+18:31:06	 From  Игорь Дирксен : не вижу дерева … 
+18:31:20	 From  Игорь Дирксен : после таблицы нет 
+18:31:48	 From  Игорь Дирксен : ок
+18:32:08	 From  Tatiana : Спасибо
+18:32:10	 From  Игорь Дирксен : Пока
+18:32:12	 From  Miras N : Спасибо
+18:32:13	 From  Arseniy Ulanov : спасибо!
+18:32:13	 From  Serhii : пока
+18:32:15	 From  Olga : спасибо, пока
