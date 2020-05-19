@@ -26,7 +26,7 @@ FROM
 -- вывести общую сумму цены на сайте
 -- 2/21
  SELECT
-	SUM(list_price)
+	SUM(list_price) as total_price 
 FROM
 	db_laba.dbo.products;
 
@@ -38,7 +38,7 @@ FROM
 -- вывести среднюю цену продукта на сайте
 -- 3/21
  SELECT
-	AVG(list_price)
+	AVG(list_price) avg_price
 FROM
 	db_laba.dbo.products;
 
@@ -52,21 +52,24 @@ FROM
 -- вывести общее количество строк в таблице заказов
 -- 4/21
  SELECT
-	--*, 1, 112323, 'qewrqewrer'
- COUNT(*)
+	*,
+	1 as one, 112323 as num_list, 'qewrqewrer' as dumy_text, getdate()
+ --COUNT(*)
 FROM
 	db_laba.dbo.orders;
 
-select 1;
+select 1; -- select 1 from dual; in oracle db
+
 -- вывести количество менеджеров продаж и общее количество строк таблицы заказов
 -- 5/21
  SELECT
+ 	COUNT(*) AS count_all,
 	COUNT(salesman_id) AS count_salesman,
-	COUNT(*) AS count_all,
 	COUNT(1) AS count_all_2,
 	COUNT('qqq') AS count_all_3
 FROM
 	db_laba.dbo.orders;
+--where salesman_id is null;
 
 -- вывести количество продуктов с уникальными ценами
 -- 6/21
@@ -116,6 +119,7 @@ FROM
  */
 
 -- вывести суммарное значение цены для каждой категории
+-- отсортировать по сумму по убыванию
 -- 10/21
  SELECT
 	SUM(p.list_price) as sum_list_price,
@@ -123,7 +127,9 @@ FROM
 FROM
 	db_laba.dbo.products as p
 GROUP BY
-	p.category_id;
+	p.category_id
+	--,standard_cost 
+order by 1 desc;
 
 -- вывести среднее значение цены для каждой категории
 -- для товаров стандартная цена которых выше 1000
@@ -131,7 +137,9 @@ GROUP BY
 SELECT
 	AVG(p.list_price) avg_list_price,
 	round(AVG(p.list_price), 2) raunded_avg_list_price,
+	round(AVG(p.list_price), -1) raunded_avg_list_price_minus_1,
 	CAST(round(AVG(p.list_price), 2) AS DECIMAL(10, 2)) raunded_avg_list_price_2,
+	CONVERT(DECIMAL(10, 2), round(AVG(p.list_price), 2)) raunded_avg_list_price_2_II,
 	p.category_id
 FROM
 	db_laba.dbo.products p
@@ -148,13 +156,17 @@ order by 1;
 select 1 + 2;
 select '1' + 2;
 select '1' + '2';
+select 1 + '2';
+select 'qqq' + 'ssss';
+select 'qqq' + 2; --: Conversion failed when converting the varchar value 'qqq' to data type int.
+SELECT 1 + null;
 select '1' + CAST(23333 AS varchar(40))
 select 1 + CAST(2 AS varchar(5))
 
 
 -- вывести 5 первых строк таблицы  деталей заказов
 -- 13/21
-SELECT TOP (50)
+SELECT TOP (5)
 	*
 FROM 
  	db_laba.dbo.order_items
@@ -171,7 +183,7 @@ GROUP BY
 	oi.order_id;
 
 select * FROM
-	db_laba.dbo.orders
+	db_laba.dbo.order_items oi ;
 
 -- вывести суммы в разрезе одного заказа
 -- для количества в одном заказе не менее 100 штук
@@ -198,6 +210,9 @@ GROUP BY
 	oi.product_id
 ORDER BY 1 DESC;
 
+--SELECT * from order_items oi where product_id = 1
+--SELECT * from products 
+--1	G.Skill Ripjaws V Series	Speed:DDR4-3000,Type:288-pin DIMM,CAS:15Module:8x8GBSize:64GB	450.36	640.99	5
 /*
  * +--------------------+
  * | Предложение HAVING |
@@ -214,10 +229,11 @@ ORDER BY 1 DESC;
 FROM
 	db_laba.dbo.order_items oi
 --where SUM(oi.quantity) >= 500
---where oi.quantity >= 50 --500
+--where oi.quantity >= 75--500
 GROUP BY
 	oi.product_id
-HAVING SUM(oi.quantity) >= 500
+HAVING 
+	SUM(oi.quantity) >= 500
 ORDER BY 1 DESC;
 
 -- вывести суммы продаж в разрезе продукта
@@ -232,7 +248,8 @@ FROM
 	db_laba.dbo.order_items oi
 GROUP BY
 	oi.product_id
-HAVING SUM(oi.quantity) >= 500
+HAVING --quantity > 10
+	SUM(oi.quantity) >= 500
 ORDER BY 1 DESC;
 
 -- вывести номера заказов и сумму чека
@@ -240,7 +257,7 @@ ORDER BY 1 DESC;
 -- отсортировать по убыванию суммы
 -- 19/21
  SELECT
-	--COUNT(oi.item_id),
+	--COUNT(oi.item_id), -- for check
 	oi.order_id,
 	SUM(oi.unit_price * oi.quantity) sale
 FROM
