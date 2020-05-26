@@ -16,10 +16,10 @@
 from
 	db_laba.dbo.orders ord
 where
-	ord.salesman_id =
+	ord.salesman_id = --61
 	 --employee_id = 61
 (
-	select --*
+	select --*,
 		emp.employee_id
 		--, emp.email
 
@@ -36,11 +36,12 @@ SELECT
 from
 	db_laba.dbo.orders ord
 where
-	ord.salesman_id =
-	-- salesman_id = 18
+	ord.salesman_id = 
+	-- salesman_id = 60
 (
 	SELECT
-		--*
+		--*,
+		-- customer_id = 18
  ord0.salesman_id
 	from
 		db_laba.dbo.orders ord0
@@ -48,8 +49,8 @@ where
 		cus.customer_id = ord0.customer_id
 	where
 		cus.name = 'Progressive'
-		and ord0.salesman_id is NOT NULL )
-	and YEAR(ord.order_date) = 2017
+		and ord0.salesman_id is NOT NULL 
+	and YEAR(ord0.order_date) = 2017)
 order by
 	ord.order_date desc;
 
@@ -127,37 +128,38 @@ where
 		AVG(ordi.unit_price * ordi.quantity) avg_price
 	from
 		db_laba.dbo.order_items ordi)
-	and o.order_date BETWEEN '2017-04-01' and '2017-06-30'
+	and
+	o.order_date BETWEEN '2017-04-01' and '2017-06-30' -- yyyy-mm-dd
 order by 6 desc;
+--79311.417503
 
--- вывести номер заказа и его стоимость, имя и web сайт компании, имя и телефон продавца, дату заказа и их стоимость
+-- вывести номер заказа дату заказа и его стоимость, имя и web сайт компании, имя и телефон продавца,  и их стоимость
 -- для заказов 2-го квартала 2017
 -- для продаж выше среднего значения за весь период (по всей таблице)
 -- 6/18
  SELECT
 	o.order_id,
+	o.order_date,
+	x.price_per_order,
 	--o.status,
 	cus.name,
 	cus.website,
 	e.first_name,
-	e.phone,
-	o.order_date,
-	x.price_per_order
+	--COALESCE (e.first_name,'N/A') new_first_name,
+	e.phone
 from
 	db_laba.dbo.orders o
-inner join (
-	select
-		x0.order_id,
-		x0.price_per_order
+inner join (select
+	x0.order_id,
+	x0.price_per_order
+from
+	(
+	SELECT
+		ordi.order_id, SUM(ordi.unit_price * ordi.quantity) price_per_order
 	from
-		(
-		SELECT
-			ordi.order_id,
-			SUM(ordi.unit_price * ordi.quantity) price_per_order
-		from
-			db_laba.dbo.order_items ordi
-		GROUP BY
-			ordi.order_id) x0 ) x on
+		db_laba.dbo.order_items ordi
+	GROUP BY
+		ordi.order_id) x0) x on
 	x.order_id = o.order_id
 inner join db_laba.dbo.customers cus on
 	cus.customer_id = o.customer_id
@@ -220,11 +222,12 @@ having
 	*
 from
 	db_laba.dbo.orders ord
-where
+where 
 	ord.salesman_id IN --=
 (
 	SELECT
-		ord0.salesman_id--, ord0.order_date
+	--DISTINCT
+	ord0.salesman_id--, ord0.order_date
 	from
 		db_laba.dbo.orders ord0
 	inner join db_laba.dbo.customers cus on
@@ -262,15 +265,16 @@ where
  */
 
 -- вывести количество клиентов и имя продавца
--- где количестов клиентов болле 20% от количестов клиентов для продавца за 2016 год
+-- где количестово клиентов болле 20% от количества клиентов за 2016 год
 -- 10/18
 SELECT
-	COUNT(DISTINCT o.customer_id) as customer_amount,
+--COUNT( o.customer_id),
+COUNT(DISTINCT o.customer_id) as customer_amount,
 	e.first_name
 from
 	db_laba.dbo.orders o
 inner join db_laba.dbo.employees e on
---left join db_laba.dbo.employees e on
+---left join db_laba.dbo.employees e on
 	e.employee_id = o.salesman_id
 GROUP BY
 	e.first_name
@@ -298,8 +302,8 @@ having
   SELECT
  	*
  from
- 	--db_laba.dbo.countries c
- 	db_laba.dbo.customers
+ 	db_laba.dbo.countries c
+ 	--db_laba.dbo.customers
  where
  	EXISTS (
  	SELECT
@@ -352,22 +356,26 @@ having
  	o.customer_id
  from
  	db_laba.dbo.orders o
+-- where o.salesman_id is not null
  group by
  	o.customer_id
  having
- 	count(DISTINCT o.salesman_id) >= 3
+ 	count(DISTINCT o.salesman_id) >= 3;
+ -- задача со *. Напишите проверку для 13 задачи, почуму строк 13 а не 8
+ 
+ SELECT * from orders o where customer_id = 17
 
  /* +-------------------+
   * | UNION и UNION ALL |
   * +-------------------+
   */
- -- вывести все заказы продавца по фамилии Ortiz
+ -- вывести все заказы цен продавца по фамилии Ortiz
  -- ранжировать вывод по группам
  -- 15/18
   SELECT
  	t1.order_id,
  	SUM(t1.unit_price) price,
- 	'0-5000'
+ 	'0-5000' range
  from
  	db_laba.dbo.order_items t1
  group by
@@ -377,8 +385,9 @@ having
  union all
  SELECT
  	t1.order_id,
+ 	--'ssss',
  	SUM(t1.unit_price) price,
- 	--1--
+ 	--1,
  	'5001-10000'
  	--,888
  from
@@ -391,7 +400,7 @@ having
  SELECT
  	t1.order_id,
  	SUM(t1.unit_price) price,
- 	'10001+'
+ 	'10001+' rrrr
  from
  	db_laba.dbo.order_items t1
  group by
@@ -411,7 +420,7 @@ having
  	case when  x.price < 5000 then '0-5000'
  	 when  x.price BETWEEN 5000 and 10000 then '5001-10000'
  	 when  x.price >  10000 then '10000+'
- 	end
+ 	end range
  	from (
   SELECT
  	t1.order_id,
@@ -438,7 +447,7 @@ select
 	case
 		when price < 5000 then '0-5000'
 		when price BETWEEN 5000 and 10000 then '5001-10000'
-		when price > 10000 then '10000+' end
+		when price > 10000 then '10000+' end range
 	from
 		sum_per_order
 	order by
@@ -449,7 +458,8 @@ select
  --
  -- 18/18
   select
- 	count(x.name)
+ 	count(x.name),
+ 	count(DISTINCT x.name)
  from
  	(
  	SELECT
