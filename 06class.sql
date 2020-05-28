@@ -19,22 +19,21 @@
 	,o.quantity
 	--* o.unit_price price
 	--,SUM(o.quantity) SUM_QTY
-	--,SUM(o.quantity) OVER(PARTITION BY o.order_id) AS Total
+	--,SUM(o.quantity) OVER (PARTITION BY o.order_id) AS Total
 	--,SUM(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id) AS Total2
-	,AVG(o.quantity)
-		OVER(PARTITION BY o.order_id) AS "Avg"
-	,AVG(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id desc) AS "Avg2"
+	--,AVG(o.quantity)  OVER(PARTITION BY o.order_id) AS "Avg"
+	--,AVG(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id desc) AS "Avg2"
 	--,COUNT(o.quantity) OVER(PARTITION BY o.order_id) AS "Count"
 	--,COUNT(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id desc) AS "Count2"
-	--,MIN(o.quantity) OVER(PARTITION BY o.order_id) AS "Min"
-	--,MIN(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id desc) AS "Min2"
-	--,MAX(o.quantity) OVER(PARTITION BY o.order_id) AS "Max"
-	--,MAX(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id desc) AS "Max2"
+	,MIN(o.quantity) OVER(PARTITION BY o.order_id) AS "Min"
+	,MIN(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id desc) AS "Min2"
+	,MAX(o.quantity) OVER(PARTITION BY o.order_id) AS "Max"
+	,MAX(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id desc) AS "Max2"
 from
 	db_laba.dbo.order_items o
 	where o.order_id in (1, 2)
---group by o.order_id,o.quantity
---ORDER BY 1,2--,o.unit_price
+--group by o.order_id--,o.quantity
+ORDER BY 1,2--,o.unit_price
 --,o.quantity, o.unit_price
 	--,o.item_id,o.quantity, o.unit_price
 	;
@@ -42,7 +41,7 @@ from
 -- вывести все детали заказа и процент стоимости от общего заказа
 -- для заказоа 4 года газад
 -- отсортировать по дате заказа, номеру заказа и по проценту
---SELECT YEAR(GETDATE()) -4
+--SELECT YEAR(GETDATE()) -4, GETDATE()
 -- 2/8
  select
 	x.order_id,
@@ -71,7 +70,7 @@ from
 	inner join db_laba.dbo.orders o0 on
 		o.order_id = o0.order_id
 		and YEAR(o0.order_date) = YEAR(GETDATE()) -4
-		--AND o0.order_date BETWEEN '2015-01-01' AND '2015-12-31'
+		--AND o0.order_date BETWEEN '2016-01-01' AND '2016-12-31'
 		--order by 1, 8
 		) x
 order by
@@ -90,8 +89,8 @@ select
 	x.first_name,
 	x.last_name,
 	x.phone ,
-	ROW_NUMBER() OVER (ORDER BY x.sold desc, x.order_date) AS Row_Num ,
-	NTILE(4) OVER (ORDER BY x.sold desc) AS Quartile
+	ROW_NUMBER() OVER (/*PARTITION by x.order_date */ORDER BY x.sold desc, x.order_date) AS Row_Num ,
+	NTILE(3) OVER (ORDER BY x.sold desc) AS Quartile
 from
 	(
 	select
@@ -108,12 +107,13 @@ from
 		e.employee_id = o0.salesman_id
 	where
 		year(o0.order_date) = 2017
-		and o0.salesman_id is not null
+		--and o0.salesman_id is not null
 	GROUP BY
 		o0.order_date,
 		e.first_name,
 		e.last_name,
-		e.phone) x;
+		e.phone) x
+--		where x.first_name = 'Grace'
 
 -- вывести топ 5 продавцов за 2016 год
 -- 4/8
@@ -171,6 +171,19 @@ from
 	db_laba.dbo.customers c
 where
 	c.credit_limit <= 500;
+/*
+AbbVie
+Alcoa
+Centene
+Community Health Systems
+Emerson Electric
+Farmers Insurance Exchange
+International Paper
+MGM Resorts International
+Plains GP Holdings
+Raytheon
+US Foods Holding
+*/
 
 /* +------------------------------------+
  * | LEAD, LAG, FIRST_VALUE, LAST_VALUE |
