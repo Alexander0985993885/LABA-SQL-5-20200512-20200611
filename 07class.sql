@@ -14,10 +14,13 @@
 SELECT * from db_laba.dbo.employees_test_student t
 where t.student_name = 'm.belko';
 
+SELECT * from db_laba.dbo.employees;
+
 -- 1/22
 INSERT
 	INTO
-	db_laba.dbo.employees_test_student (employee_id,
+	db_laba.dbo.employees_test_student (
+	employee_id,
 	first_name,
 	last_name,
 	email,
@@ -49,6 +52,7 @@ where t.student_name = 'm.belko';
 
 -- 2/22
 delete from
+--select * from
 	db_laba.dbo.employees_test_student
 WHERE
 	employee_id = 0 and student_name = 'm.belko';
@@ -81,6 +85,8 @@ from
 where
 	employee_id = 0
 	and first_name like N'И%' and student_name = 'm.belko';
+	--and lower(first_name) like N'и%' and student_name = 'm.belko';
+	--and first_name like N'и%' and student_name = 'm.belko';
 
 SELECT
 	*
@@ -95,7 +101,7 @@ where
 -- 3/22
 INSERT
 	INTO
-	db_laba.dbo.employees_test_student
+	db_laba.dbo.employees_test_student--(ьватпловплрвал)
 VALUES(1,
 N'Сергей',
 N'Круглов',
@@ -177,7 +183,7 @@ N'Иван',
 N'Иванов',
 'test@mail.com',
 '111-222-333',
-'wwwww',
+'wwwww',--hire_date
 null,
 'CEO',
 'm.belko');
@@ -233,7 +239,7 @@ INSERT
 	into
 	db_laba.dbo.employees_test_student
 SELECT
-	*, 'm.belko'
+	*, 'm.belko' v_student_name
 from
 	db_laba.dbo.employees e
 where
@@ -319,6 +325,7 @@ update
 set
 	job_title = 'Programmer2' ,
 	phone = 333333 -- произошло автопреобразование из числа в текст
+	--SELECT * from db_laba.dbo.employees_test_student
 WHERE
 	job_title = 'Programmer'
 and student_name = 'm.belko';
@@ -330,6 +337,18 @@ set
 	job_title = job_title + '_new',--'fkjghdfkjghkf'
 	phone = SUBSTRING(phone, 1, 3) + '-' + SUBSTRING(phone, 4, 99) --99 length(phone)
 where  student_name = 'm.belko';
+
+
+	
+SELECT job_title,
+       job_title + '_new',--'fkjghdfkjghkf'
+	phone,
+	SUBSTRING(phone, 1, 3) + '-' + SUBSTRING(phone, 3, 99) --99 length(phone)
+from db_laba.dbo.employees_test_student
+where  student_name = 'm.belko';
+--111 111111
+--111-111111
+--111-1111111
 --
  select
 	*
@@ -409,7 +428,7 @@ from
 where
 	employee_id in (
 	select
-		t.employee_id--, *
+		t.employee_id--, * delete 
 	from
 		db_laba.dbo.employees_test_student t
 	where
@@ -509,10 +528,10 @@ INSERT
 	updated_ts,
 	student_name)
 VALUES (SOURCE.ProductID,
-SOURCE.ProductName,
-SOURCE.Rate,
-getdate(),
-source.student_name);
+		SOURCE.ProductName,
+		SOURCE.Rate,
+		getdate(),
+		source.student_name);
 
 SELECT * FROM db_laba.dbo.products_test_sudent;
 SELECT * FROM db_laba.dbo.updated_products_test_sudent;
