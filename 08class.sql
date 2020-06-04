@@ -4,6 +4,9 @@
  * #     Создание и модификации таблиц     #
  * #########################################
  */
+
+--drop table db_laba.dbo.countries_test_mbelko;
+
 drop table if exists db_laba.dbo.countries_test_mbelko;
 drop table if exists db_laba.dbo.countries_test_02_mbelko;
 drop table if exists db_laba.dbo.Salespeople_02_mbelko;
@@ -54,7 +57,7 @@ from
 sp_help countries_test_mbelko;
 
 --Oracle 
---create table temp AS select.....
+--create table tempqqq AS select.....
 
 /* +---------+
  * | Индексы |
@@ -68,7 +71,6 @@ sp_help countries_test_mbelko;
 SELECT name, type_desc, is_unique, is_primary_key--,*
 FROM sys.indexes
 WHERE object_id = OBJECT_ID('dbo.countries_test_mbelko');
-
 -- 4/31
 CREATE UNIQUE INDEX UQ_countries_test_mbelko ON db_laba.dbo.countries_test_mbelko (name);
 
@@ -94,7 +96,7 @@ SELECT * from db_laba.dbo.countries_test_mbelko;
 alter table db_laba.dbo.countries_test_mbelko drop COLUMN abbreviated;
 SELECT * from db_laba.dbo.countries_test_mbelko;
 
-SELECT ORDINAL_POSITION, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE
+SELECT ORDINAL_POSITION, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE--, *
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_NAME = 'countries_test_mbelko';
 
@@ -143,6 +145,7 @@ WHERE TABLE_NAME = 'countries_test_03_mbelko';
 -- https://docs.microsoft.com/ru-ru/sql/t-sql/statements/collations?view=sql-server-2017
 -- https://database.guide/full-list-of-collations-supported-in-sql-server-2017/
 -- 10/31
+SELECT name, description FROM sys.fn_helpcollations();
 drop table if exists db_laba.dbo.employees_test_01_mbelko;
 
 CREATE TABLE db_laba.dbo.employees_test_01_mbelko ( employee_id int NOT NULL,
@@ -343,15 +346,16 @@ drop table if exists db_laba.dbo.Salespeople_01_mbelko;
 CREATE TABLE db_laba.dbo.Salespeople_01_mbelko 
 (snum integer NOT NULL UNIQUE,
 sname char(10) NOT NULL UNIQUE,
-city char(10) CHECK (city IN ('London',
-'New York',
-'San Jose',
-'Barselona')),
+city char(10) CHECK (city IN   ('London',
+								'New York',
+								'San Jose',
+								'Barselona')),
 comm decimal CHECK (comm<1));
 
 --err The INSERT statement conflicted with the CHECK constraint "CK__Salespeopl__city__0C50D423". T
 -- 29/31
-insert into db_laba.dbo.Salespeople_01_mbelko(snum,sname,city,comm) VALUES(1,'test02','Kyiv',0.2 );
+insert into db_laba.dbo.Salespeople_01_mbelko(snum,sname,city,comm) 
+VALUES(1,'test02','Kyiv',0.2 );
 
 /* +---------------------------------+
  * | Установка значений по умолчанию |
