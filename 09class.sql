@@ -14,6 +14,8 @@ DROP TABLE IF EXISTS db_laba.dbo.regions_01_mbelko;
 DROP TABLE IF EXISTS db_laba.dbo.regions_02_mbelko;
 DROP TABLE IF EXISTS db_laba.dbo.countries_01_mbelko;
 DROP TABLE IF EXISTS db_laba.dbo.countries_02_mbelko;
+DROP TABLE IF EXISTS db_laba.dbo.employees_03_mbelko;
+
 
 
 --
@@ -61,6 +63,7 @@ CREATE TABLE db_laba.dbo.countries_01_mbelko
 country_name VARCHAR(40) NOT NULL,
 region_id int ,
 CONSTRAINT fk_countries_regions_01_mbelko FOREIGN KEY(region_id) 
+--fk_countries_regions_region_id looks good
 REFERENCES db_laba.dbo.regions_01_mbelko(region_id) );
 
 --check
@@ -71,7 +74,8 @@ Select C.*, (Select definition From sys.default_constraints Where object_id = C.
 From sys.objects As C
 Left Join (Select * From sys.foreign_key_columns) As D On D.constraint_object_id = C.object_id 
 Where C.parent_object_id = (Select object_id From sys.objects Where type = 'U'
-And name = 'countries_01_mbelko');
+And name = 'countries_01_mbelko'
+);
 
 -- 4/25
 delete
@@ -217,6 +221,7 @@ SELECT
 	*
 from
 	db_laba.dbo.regions_02_mbelko;
+	--where region_id = 3;
 
 -- 14/25
 delete
@@ -244,7 +249,7 @@ CREATE TABLE db_laba.dbo.employees_03_mbelko (
 	CONSTRAINT fk_employees_03_mbelko_employees_manager FOREIGN KEY (manager_id) 
 	REFERENCES db_laba.dbo.employees_03_mbelko(employee_id)
 );
-
+--SELECT @@version
 --check
 Select C.*, (Select definition From sys.default_constraints Where object_id = C.object_id) As dk_definition,
 (Select definition From sys.check_constraints Where object_id = C.object_id) As ck_definition,
@@ -264,6 +269,7 @@ INSERT INTO db_laba.dbo.employees_03_mbelko
 (employee_id, first_name, last_name, email, phone, hire_date, manager_id, job_title)
 VALUES(999, 'test', 'test', 'test', 'test', getdate(), 1, 'test');
 
+select * from db_laba.dbo.employees_03_mbelko where employee_id between 1 and 10 or employee_id = 999;
 select * from db_laba.dbo.employees_03_mbelko where employee_id between 1 and 10 or employee_id = 1000;
 
 -- 18/25
@@ -286,6 +292,12 @@ INSERT INTO db_laba.dbo.employees_03_mbelko
 (employee_id, first_name, last_name, email, phone, hire_date, manager_id, job_title)
 VALUES(1002, 'test', 'test', 'test', 'test', getdate(), 0, 'test');
 
+--* insert select char
+INSERT INTO db_laba.dbo.employees_03_mbelko
+(employee_id, first_name, last_name, email, phone, hire_date, manager_id, job_title)
+VALUES(1111, 'test', 'test', 'test', (select 'test1111'), getdate(), 1, 'test');
+SELECT * from employees_03_mbelko where employee_id = 1111
+
 ﻿--
 /* +--------------------------+
  * | Что такое представление? |
@@ -300,6 +312,10 @@ from db_laba.dbo.customers
 where RIGHT(address, 2) = 'NY';
 
 select * from dbo.customers_ny;
+
+-- delete row from view
+DELETE FROM db_laba.dbo.customers_ny
+WHERE customer_id=74
 
 --
 /* +-------------------------------+
@@ -326,6 +342,7 @@ from db_laba.dbo.customers
 where RIGHT(address, 2) = 'NY'
 order by name;
 
+SELECT * from dbo.customers_ny2 order by name;
 
 select * from customers_ny_mi;
 select * from dbo.customers_ny order by name;
