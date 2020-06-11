@@ -1,3 +1,7 @@
+SELECT * FROM fn_my_permissions('dbo.countries', 'OBJECT')   
+    ORDER BY subentity_name, permission_name ;   --show for user lector and student
+
+
 select * from db_laba.dbo.countries;
 
 
@@ -33,7 +37,5 @@ set country_id = country_id * 10;
 update db_laba.dbo.countries_test_03_mbelko
 set country_name = country_name + '_new';
 
-
-GRANT SELECT ON OBJECT :: "dbo"."countries_test_03_mbelko" TO "lector";
 
 select * from db_laba.dbo.customers_ny

@@ -99,7 +99,7 @@ GRANT REFERENCES ON OBJECT :: "dbo"."countries_02_mbelko"(country_id) TO "studen
 REVOKE REFERENCES ON OBJECT :: "dbo"."countries_02_mbelko"(country_id) FROM "student_test";
 
 --GRANT INSERT ON OBJECT :: "dbo"."Audit_DDL_Events" TO "student_test";
-
+--insert into countries_test_03_mbelko select ROW_NUMBER() over(order by c.country_name ), c.country_name from countries c
 GRANT SELECT ON OBJECT :: "dbo"."countries_test_03_mbelko" TO "student_test";
 REVOKE SELECT ON OBJECT :: "dbo"."countries_test_03_mbelko" FROM "student_test";
 
@@ -115,9 +115,6 @@ ALTER ROLE db_ddladmin DROP MEMBER "student_test";
 GRANT UPDATE ON OBJECT :: "dbo"."countries_test_03_mbelko"(country_name) TO "student_test";
 GRANT UPDATE ON OBJECT :: "dbo"."countries_test_03_mbelko" TO "student_test";
 REVOKE UPDATE ON OBJECT :: "dbo"."countries_test_03_mbelko" FROM "student_test";
-
-insert into countries_test_03_mbelko
-select 0, 'Ukraine' UNION select 1, 'USA'
 
 -- привелегии на схему
 GRANT SELECT ON SCHEMA :: DBO TO student_test WITH GRANT OPTION;  

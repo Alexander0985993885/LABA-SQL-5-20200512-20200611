@@ -6,3 +6,8 @@ USE [db_laba];
 CREATE USER [student_test] FOR LOGIN [student_test] WITH DEFAULT_SCHEMA=[dbo];
 USE [db_laba];
 DROP USER [student_test]
+
+
+
+SELECT * FROM fn_my_permissions(NULL, 'SERVER'); 
+SELECT * FROM fn_my_permissions (NULL, 'DATABASE');  
